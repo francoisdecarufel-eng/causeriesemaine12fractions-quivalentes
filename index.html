@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Causerie Mathématique - La Pâtisserie des Fractions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importation d'une police lisible et adaptée aux élèves */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Kalam:wght@700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fond réaliste : "A realistic photo of a bakery with math activities, high-resolution, natural lighting, DSLR style" */
+            background-image: url('https://images.unsplash.com/photo-1555507036-ab1e4006a8a0?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .title-font {
+            font-family: 'Kalam', cursive;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .wooden-board {
+            background-color: #d97706; /* Fallback */
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Animations */
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        .student-bubble {
+            display: none;
+            transition: all 0.3s ease;
+        }
+        .student-bubble.active {
+            display: block;
+            animation: popIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased flex flex-col items-center py-6 px-4">
+
+    <!-- En-tête -->
+    <header class="glass-panel w-full max-w-5xl rounded-3xl p-6 mb-6 text-center animate-pop">
+        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">4e Année (2e Cycle) • Mathématiques</span>
+        <h1 class="title-font text-4xl md:text-5xl text-amber-900 mt-3 mb-2 drop-shadow-sm">La Pâtisserie des Fractions</h1>
+        <p class="text-lg text-gray-700">Bienvenue à la pâtisserie ! Observe bien les tartes et préparons-nous à discuter.</p>
+    </header>
+
+    <!-- Navigation (Onglets) -->
+    <nav class="flex flex-wrap justify-center gap-2 mb-8 max-w-5xl w-full" id="tab-nav">
+        <!-- Généré par JS -->
+    </nav>
+
+    <!-- Conteneur Principal -->
+    <main id="app-content" class="w-full max-w-5xl">
+        <!-- Le contenu des onglets sera injecté ici -->
+    </main>
+
+    <!-- Script Application -->
+    <script>
+        // === DONNÉES DE L'APPLICATION ===
+        const appData = {
+            guide: {
+                id: 'guide',
+                title: '👨‍🏫 Guide Enseignant',
+                content: `
+                    <div class="glass-panel rounded-3xl p-8 animate-pop">
+                        <h2 class="title-font text-3xl text-amber-900 mb-6 border-b-2 border-amber-200 pb-2">Démarche : Pense - Parle - Partage</h2>
+                        <p class="text-lg mb-6">Cette causerie mathématique stimule le raisonnement, le vocabulaire et la flexibilité. <strong>Toutes les réponses sont valables si elles sont bien expliquées par l'élève !</strong></p>
+                        
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-xl shadow-sm">
+                                <div class="text-3xl mb-2">🤔</div>
+                                <h3 class="font-bold text-xl text-blue-900 mb-2">1. Pense (1 min)</h3>
+                                <p class="text-blue-800 text-sm">Les élèves observent l'image <strong>en silence</strong>. Ils cherchent la plus petite fraction ou l'image qui est différente des autres (l'intrus) et préparent leurs arguments.</p>
+                            </div>
+                            
+                            <div class="bg-green-50 border-l-4 border-green-500 p-5 rounded-r-xl shadow-sm">
+                                <div class="text-3xl mb-2">🗣️</div>
+                                <h3 class="font-bold text-xl text-green-900 mb-2">2. Parle (2 min)</h3>
+                                <p class="text-green-800 text-sm">Les élèves se tournent vers un partenaire. Ils partagent leur choix en utilisant le vocabulaire mathématique (<em>numérateur, dénominateur, demi, quart, équivalent, part</em>).</p>
+                            </div>
+                            
+                            <div class="bg-purple-50 border-l-4 border-purple-500 p-5 rounded-r-xl shadow-sm">
+                                <div class="text-3xl mb-2">🙋‍♂️</div>
+                                <h3 class="font-bold text-xl text-purple-900 mb-2">3. Partage (5 min)</h3>
+                                <p class="text-purple-800 text-sm">Retour en grand groupe. L'enseignant recueille les idées. Il valorise la variété des stratégies. Cliquez sur les "Élèves virtuels" dans les activités pour relancer la discussion !</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            tabs: [
+                {
+                    id: 'tab1',
+                    title: 'Étape 1 : Mêmes dénominateurs',
+                    color: '#f43f5e', // Rose
+                    fractions: [
+                        { num: 2, den: 8, label: "Tarte A" },
+                        { num: 1, den: 8, label: "Tarte B" },
+                        { num: 4, den: 8, label: "Tarte C" },
+                        { num: 7, den: 8, label: "Tarte D" }
+                    ],
+                    question: "Trouve la plus petite part ou cherche l'intrus ! Quelle tarte est différente des autres ?",
+                    students: [
+                        { name: "Léa", emoji: "👧", text: "Je pense que l'intrus est la Tarte B (1/8) car c'est la plus petite de toutes les fractions présentées." },
+                        { name: "Tom", emoji: "👦", text: "Moi, je dis que c'est la Tarte C (4/8) l'intrus, car c'est la seule qui représente exactement la moitié d'une tarte entière !" },
+                        { name: "Mia", emoji: "👩‍🦱", text: "L'intrus c'est la Tarte D (7/8). Elle est différente parce qu'elle est presque pleine, il ne manque qu'une seule petite part !" }
+                    ]
+                },
+                {
+                    id: 'tab2',
+                    title: 'Étape 2 : Différents dénominateurs',
+                    color: '#3b82f6', // Bleu
+                    hasSubActivities: true,
+                    activeSubIndex: 0,
+                    subActivities: [
+                        {
+                            subtitle: "Activité 2A : Logique d'Équivalences",
+                            question: "Trois de ces tartes représentent exactement la même quantité. Quelle est la plus petite tarte et quel est l'intrus ?",
+                            fractions: [
+                                { num: 1, den: 3, label: "Tarte A" },
+                                { num: 2, den: 6, label: "Tarte B" },
+                                { num: 4, den: 12, label: "Tarte C" },
+                                { num: 1, den: 4, label: "Tarte D" }
+                            ],
+                            students: [
+                                { name: "Arthur", emoji: "👦🏼", text: "La Tarte D (1/4) est la plus petite et c'est l'intrus ! Les tartes A, B et C sont toutes égales à un tiers (1/3), alors que D est un quart." },
+                                { name: "Chloé", emoji: "👧🏻", text: "L'intrus pourrait aussi être la Tarte C (4/12) car c'est celle qui est découpée dans le plus grand nombre de morceaux (douzièmes) !" },
+                                { name: "Noah", emoji: "🧑🏽", text: "Si on regarde la Tarte A (1/3), c'est la seule dont la fraction s'écrit avec les nombres 1 et 3 !" }
+                            ]
+                        },
+                        {
+                            subtitle: "Activité 2B : Même dénominateur caché",
+                            question: "Trouve l'intrus ! Réfléchis à la découpe de chaque tarte.",
+                            fractions: [
+                                { num: 1, den: 6, label: "Tarte A" },
+                                { num: 2, den: 6, label: "Tarte B" },
+                                { num: 5, den: 6, label: "Tarte C" },
+                                { num: 3, den: 8, label: "Tarte D" }
+                            ],
+                            students: [
+                                { name: "Léa", emoji: "👧", text: "L'intrus est la Tarte D (3/8) car son dénominateur est 8. Toutes les autres tartes sont découpées en 6 morceaux (en sixièmes) !" },
+                                { name: "Samuel", emoji: "👦🏽", text: "Pour moi, la plus petite est la Tarte A (1/6). C'est la plus petite quantité de gâteau à manger." },
+                                { name: "Camille", emoji: "👩🏼", text: "L'intrus est la Tarte B (2/6) car elle est équivalente à 1/3, c'est la seule qu'on peut simplifier plus facilement !" }
+                            ]
+                        },
+                        {
+                            subtitle: "Activité 2C : Le repère de la Moitié (1/2)",
+                            question: "Trois de ces tartes représentent la moitié exacte d'une tarte. Laquelle est la plus petite ou l'intrus ?",
+                            fractions: [
+                                { num: 2, den: 4, label: "Tarte A" },
+                                { num: 3, den: 6, label: "Tarte B" },
+                                { num: 5, den: 10, label: "Tarte C" },
+                                { num: 2, den: 5, label: "Tarte D" }
+                            ],
+                            students: [
+                                { name: "Sofia", emoji: "👧🏽", text: "La Tarte D (2/5) est l'intrus et la plus petite ! Les trois autres (2/4, 3/6, 5/10) sont toutes égales à la moitié (1/2)." },
+                                { name: "Félix", emoji: "👦🏻", text: "L'intrus c'est la Tarte C (5/10) parce que ce sont de très petites parts (dixièmes) et les chiffres 5 et 10 sont plus grands." },
+                                { name: "Élodie", emoji: "👩🏻", text: "La Tarte A (2/4) est l'intrus car c'est la seule découpée en quarts !" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'tab3',
+                    title: 'Étape 3 : Équivalences',
+                    color: '#10b981', // Vert
+                    fractions: [
+                        { num: 1, den: 2, label: "Tarte A" },
+                        { num: 2, den: 4, label: "Tarte B" },
+                        { num: 3, den: 4, label: "Tarte C" },
+                        { num: 1, den: 3, label: "Tarte D" }
+                    ],
+                    question: "Observe bien... Peux-tu repérer deux tartes qui ont la même quantité ? Qui est l'intrus ?",
+                    students: [
+                        { name: "Emma", emoji: "👧🏽", text: "La Tarte A (1/2) et la Tarte B (2/4) ont exactement la même quantité, ce sont des fractions équivalentes ! Donc l'intrus est peut-être la Tarte C car c'est la plus grande." },
+                        { name: "Léo", emoji: "👦🏻", text: "Je pense que la Tarte D (1/3) est l'intrus, car on ne peut pas la lier aux moitiés et aux quarts." },
+                        { name: "Maya", emoji: "👩🏼", text: "La Tarte B (2/4) est l'intrus. Pourquoi dire 2/4 quand on pourrait simplement dire 1/2 pour aller plus vite ?" }
+                    ]
+                }
+            ]
+        };
+
+        // === FONCTIONS UTILITAIRES (Génération de SVG pour les Fractions) ===
+        // Crée une tarte SVG réaliste et précise mathématiquement
+        function createPieSVG(num, den, colorHex) {
+            const cx = 50, cy = 50, r = 45;
+            let lines = '';
+            
+            // Lignes de coupe
+            for(let i=0; i<den; i++) {
+                let angle = (i * 360 / den) - 90;
+                let rad = angle * Math.PI / 180;
+                let x = cx + r * Math.cos(rad);
+                let y = cy + r * Math.sin(rad);
+                lines += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#451a03" stroke-width="1.5" stroke-opacity="0.5"/>`;
+            }
+
+            let filledPart = '';
+            if (num === den) {
+                filledPart = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${colorHex}" />`;
+            } else if (num > 0) {
+                let startAngle = -90;
+                let endAngle = -90 + (num / den) * 360;
+                
+                // Calcul des coordonnées du point de fin
+                let endRad = endAngle * Math.PI / 180;
+                let x2 = cx + r * Math.cos(endRad);
+                let y2 = cy + r * Math.sin(endRad);
+                
+                // Drapeau pour l'arc long (si plus de 50%)
+                let largeArcFlag = (num / den) > 0.5 ? 1 : 0;
+                
+                // Point de départ fixe (en haut)
+                let x1 = cx;
+                let y1 = cy - r;
+
+                filledPart = `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArcFlag} 1 ${x2} ${y2} Z" fill="${colorHex}" />`;
+            }
+
+            return `
+            <svg viewBox="0 0 100 100" class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 filter drop-shadow-xl hover:scale-105 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="plateGrad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="90%" stop-color="#f8fafc" />
+                        <stop offset="100%" stop-color="#cbd5e1" />
+                    </radialGradient>
+                    <radialGradient id="pieGrad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                        <stop offset="0%" stop-color="#fffbeb" />
+                        <stop offset="100%" stop-color="#fcd34d" />
+                    </radialGradient>
+                </defs>
+                <!-- Assiette -->
+                <circle cx="50" cy="50" r="49" fill="url(#plateGrad)" stroke="#94a3b8" stroke-width="1"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="0.5"/>
+                
+                <!-- Fond de la tarte (Pâte) -->
+                <circle cx="50" cy="50" r="${r}" fill="url(#pieGrad)" stroke="#b45309" stroke-width="2"/>
+                
+                <!-- Remplissage (Garniture) -->
+                ${filledPart}
+                
+                <!-- Lignes de découpe par dessus -->
+                ${lines}
+                
+                <!-- Reflet pour effet 3D -->
+                <ellipse cx="40" cy="25" rx="15" ry="8" fill="#ffffff" opacity="0.3" transform="rotate(-30 40 25)" />
+            </svg>`;
+        }
+
+        // === LOGIQUE DE L'APPLICATION ===
+
+        let currentTabId = 'guide'; // Onglet par défaut
+
+        function initApp() {
+            renderNav();
+            renderContent();
+        }
+
+        function renderNav() {
+            const navContainer = document.getElementById('tab-nav');
+            let navHTML = '';
+            
+            // Bouton Guide
+            navHTML += `
+                <button onclick="switchTab('guide')" class="px-5 py-3 rounded-xl font-bold transition-all shadow-md ${currentTabId === 'guide' ? 'bg-amber-800 text-white shadow-inner scale-105' : 'bg-white text-amber-800 hover:bg-amber-100'}">
+                    👨‍🏫 Guide Enseignant
+                </button>
+            `;
+
+            // Boutons Étapes
+            appData.tabs.forEach((tab) => {
+                const isActive = currentTabId === tab.id;
+                navHTML += `
+                    <button onclick="switchTab('${tab.id}')" class="px-5 py-3 rounded-xl font-bold transition-all shadow-md ${isActive ? 'text-white shadow-inner scale-105' : 'bg-white hover:bg-gray-100'}" style="${isActive ? 'background-color:'+tab.color : 'color:'+tab.color}">
+                        ${tab.title}
+                    </button>
+                `;
+            });
+
+            navContainer.innerHTML = navHTML;
+        }
+
+        function switchTab(tabId) {
+            currentTabId = tabId;
+            renderNav();
+            renderContent();
+        }
+
+        function switchSubActivity(tabId, subIndex) {
+            const tab = appData.tabs.find(t => t.id === tabId);
+            if(tab && tab.hasSubActivities) {
+                tab.activeSubIndex = subIndex;
+                renderContent();
+            }
+        }
+
+        function toggleStudent(studentId) {
+            const el = document.getElementById(`student-${studentId}`);
+            if(el.classList.contains('active')) {
+                el.classList.remove('active');
+            } else {
+                // Fermer les autres (optionnel) mais ici on permet d'en ouvrir plusieurs
+                el.classList.add('active');
+            }
+        }
+
+        function renderContent() {
+            const contentContainer = document.getElementById('app-content');
+            
+            if (currentTabId === 'guide') {
+                contentContainer.innerHTML = appData.guide.content;
+                return;
+            }
+
+            const tabData = appData.tabs.find(t => t.id === currentTabId);
+            
+            // Gestion des sous-activités si présent (pour Étape 2)
+            let activeData = tabData;
+            let subNavHTML = '';
+
+            if (tabData.hasSubActivities) {
+                const activeSub = tabData.subActivities[tabData.activeSubIndex];
+                activeData = {
+                    ...tabData,
+                    title: activeSub.subtitle,
+                    question: activeSub.question,
+                    fractions: activeSub.fractions,
+                    students: activeSub.students
+                };
+
+                subNavHTML = `
+                    <div class="flex flex-wrap justify-center gap-2 mb-6 bg-white/60 p-2 rounded-2xl border border-blue-200">
+                        ${tabData.subActivities.map((sub, idx) => `
+                            <button onclick="switchSubActivity('${tabData.id}', ${idx})" 
+                                class="px-4 py-2 rounded-xl text-sm font-bold transition-all ${tabData.activeSubIndex === idx ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-blue-800 hover:bg-blue-50'}">
+                                ${sub.subtitle.split(':')[0]}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Génération de la grille des 4 tartes
+            let piesHTML = '';
+            activeData.fractions.forEach((frac, index) => {
+                piesHTML += `
+                    <div class="flex flex-col items-center p-4">
+                        ${createPieSVG(frac.num, frac.den, tabData.color)}
+                        <div class="mt-4 bg-white/90 px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-center">
+                            <p class="font-bold text-gray-800 text-lg">${frac.label}</p>
+                            <p class="font-mono text-2xl font-black mt-1" style="color: ${tabData.color}">${frac.num}/${frac.den}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Génération des élèves virtuels
+            let studentsHTML = '';
+            activeData.students.forEach((student, index) => {
+                const uniqueId = `${tabData.id}-${tabData.activeSubIndex || 0}-s${index}`;
+                studentsHTML += `
+                    <div class="flex flex-col items-center">
+                        <button onclick="toggleStudent('${uniqueId}')" class="w-16 h-16 rounded-full bg-white shadow-lg border-2 text-3xl hover:scale-110 transition-transform flex items-center justify-center relative" style="border-color: ${tabData.color}">
+                            ${student.emoji}
+                            <span class="absolute -bottom-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full">${student.name}</span>
+                        </button>
+                        
+                        <div id="student-${uniqueId}" class="student-bubble mt-6 bg-white p-4 rounded-2xl shadow-xl border-t-4 text-sm relative w-full sm:w-64" style="border-color: ${tabData.color}">
+                            <!-- Triangle flèche de la bulle -->
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[12px] border-b-white"></div>
+                            <p class="text-gray-700 italic">« ${student.text} »</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <div class="glass-panel rounded-3xl p-6 sm:p-10 animate-pop">
+                    <!-- Sous-navigation éventuelle -->
+                    ${subNavHTML}
+
+                    <!-- Question principale -->
+                    <div class="text-center mb-8">
+                        <h2 class="title-font text-3xl sm:text-4xl text-amber-900 mb-3">${activeData.title}</h2>
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 bg-white/60 inline-block px-6 py-3 rounded-full border border-white">${activeData.question}</p>
+                    </div>
+
+                    <!-- Présentoir de tartes (Le Tableau) -->
+                    <div class="wooden-board rounded-2xl p-4 sm:p-8 mb-12 shadow-2xl relative overflow-hidden">
+                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
+                            ${piesHTML}
+                         </div>
+                    </div>
+
+                    <!-- Zone Interactive : Que disent les élèves ? -->
+                    <div class="bg-gray-50/80 rounded-2xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">💬 Que disent les élèves de la classe ?</h3>
+                        <p class="text-center text-gray-500 mb-6 text-sm">Clique sur un élève pour découvrir sa stratégie (il n'y a pas de mauvaise réponse s'il explique bien !).</p>
+                        
+                        <div class="flex flex-wrap justify-center gap-8 sm:gap-12 items-start">
+                            ${studentsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentContainer.innerHTML = html;
+        }
+
+        // Lancement de l'application
+        window.onload = initApp;
+
+    </script>
+</body>
+</html>
